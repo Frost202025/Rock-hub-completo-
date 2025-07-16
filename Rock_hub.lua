@@ -15,36 +15,36 @@ Instance.new("UICorner", mainFrame).CornerRadius = UDim.new(0, 10)
 
 -- FUNÇÃO DRAG
 local function dragify(frame)
-local dragging, dragInput, dragStart, startPos
+	local dragging = false
+	local dragInput, dragStart, startPos
 
-frame.InputBegan:Connect(function(input)  
-	if input.UserInputType == Enum.UserInputType.MouseButton1 then  
-		dragging = true  
-		dragStart = input.Position  
-		startPos = frame.Position  
+	frame.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 then
+			dragging = true
+			dragStart = input.Position
+			startPos = frame.Position
 
-		input.Changed:Connect(function()  
-			if input.UserInputState == Enum.UserInputState.End then  
-				dragging = false  
-			end  
-		end)  
-	end  
-end)  
+			input.Changed:Connect(function()
+				if input.UserInputState == Enum.UserInputState.End then
+					dragging = false
+				end
+			end)
+		end
+	end)
 
-frame.InputChanged:Connect(function(input)  
-	if input.UserInputType == Enum.UserInputType.MouseMovement then  
-		dragInput = input  
-	end  
-end)  
+	frame.InputChanged:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseMovement then
+			dragInput = input
+		end
+	end)
 
-game:GetService("UserInputService").InputChanged:Connect(function(input)  
-	if input == dragInput and dragging then  
-		local delta = input.Position - dragStart  
-		frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X,  
-								   startPos.Y.Scale, startPos.Y.Offset + delta.Y)  
-	end  
-end)
-
+	game:GetService("UserInputService").InputChanged:Connect(function(input)
+		if input == dragInput and dragging then
+			local delta = input.Position - dragStart
+			frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X,
+				startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+		end
+	end)
 end
 
 dragify(mainFrame)
@@ -62,19 +62,19 @@ titleLabel.TextXAlignment = Enum.TextXAlignment.Left
 
 -- BOTÕES DE FECHAR E MINIMIZAR
 local function createTopButton(text, positionX)
-local button = Instance.new("TextButton")
-button.Size = UDim2.new(0, 25, 0, 25)
-button.Position = UDim2.new(1, positionX, 0, 5)
-button.AnchorPoint = Vector2.new(1, 0)
-button.Text = text
-button.Font = Enum.Font.GothamBold
-button.TextSize = 14
-button.TextColor3 = Color3.fromRGB(255, 255, 255)
-button.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-button.BorderSizePixel = 0
-button.Parent = mainFrame
-Instance.new("UICorner", button).CornerRadius = UDim.new(0, 6)
-return button
+	local button = Instance.new("TextButton")
+	button.Size = UDim2.new(0, 25, 0, 25)
+	button.Position = UDim2.new(1, positionX, 0, 5)
+	button.AnchorPoint = Vector2.new(1, 0)
+	button.Text = text
+	button.Font = Enum.Font.GothamBold
+	button.TextSize = 14
+	button.TextColor3 = Color3.fromRGB(255, 255, 255)
+	button.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+	button.BorderSizePixel = 0
+	button.Parent = mainFrame
+	Instance.new("UICorner", button).CornerRadius = UDim.new(0, 6)
+	return button
 end
 
 local closeButton = createTopButton("X", -5)
@@ -96,40 +96,39 @@ buttonLayout.Padding = UDim.new(0, 6)
 -- SIDEBAR BUTTONS
 local currentButton
 local function createSidebarButton(text)
-local button = Instance.new("TextButton")
-button.Text = text
-button.Size = UDim2.new(1, -16, 0, 34)
-button.Position = UDim2.new(0, 8, 0, 0)
-button.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-button.TextColor3 = Color3.fromRGB(230, 230, 230)
-button.Font = Enum.Font.Gotham
-button.TextSize = 13
-button.BorderSizePixel = 0
-button.AutoButtonColor = false
-button.Parent = sidebar
+	local button = Instance.new("TextButton")
+	button.Text = text
+	button.Size = UDim2.new(1, -16, 0, 34)
+	button.Position = UDim2.new(0, 8, 0, 0)
+	button.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+	button.TextColor3 = Color3.fromRGB(230, 230, 230)
+	button.Font = Enum.Font.Gotham
+	button.TextSize = 13
+	button.BorderSizePixel = 0
+	button.AutoButtonColor = false
+	button.Parent = sidebar
 
-local corner = Instance.new("UICorner", button)  
-corner.CornerRadius = UDim.new(0, 6)  
+	local corner = Instance.new("UICorner", button)
+	corner.CornerRadius = UDim.new(0, 6)
 
-local stroke = Instance.new("UIStroke", button)  
-stroke.Color = Color3.fromRGB(255, 255, 255)  
-stroke.Thickness = 1  
-stroke.Transparency = 1  
+	local stroke = Instance.new("UIStroke", button)
+	stroke.Color = Color3.fromRGB(255, 255, 255)
+	stroke.Thickness = 1
+	stroke.Transparency = 1
 
-button.MouseEnter:Connect(function()  
-	if button ~= currentButton then  
-		button.BackgroundColor3 = Color3.fromRGB(55, 55, 55)  
-	end  
-end)  
+	button.MouseEnter:Connect(function()
+		if button ~= currentButton then
+			button.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+		end
+	end)
 
-button.MouseLeave:Connect(function()  
-	if button ~= currentButton then  
-		button.BackgroundColor3 = Color3.fromRGB(45, 45, 45)  
-	end  
-end)  
+	button.MouseLeave:Connect(function()
+		if button ~= currentButton then
+			button.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+		end
+	end)
 
-return button, stroke
-
+	return button, stroke
 end
 
 local funButton, funStroke = createSidebarButton("Fun")
@@ -148,13 +147,13 @@ Instance.new("UICorner", contentFrame).CornerRadius = UDim.new(0, 8)
 
 -- CRIAR TABS
 local function createTabFrame(name)
-local frame = Instance.new("Frame")
-frame.Name = name
-frame.Size = UDim2.new(1, 0, 1, 0)
-frame.BackgroundTransparency = 1
-frame.Visible = false
-frame.Parent = contentFrame
-return frame
+	local frame = Instance.new("Frame")
+	frame.Name = name
+	frame.Size = UDim2.new(1, 0, 1, 0)
+	frame.BackgroundTransparency = 1
+	frame.Visible = false
+	frame.Parent = contentFrame
+	return frame
 end
 
 local funFrame = createTabFrame("Fun")
@@ -173,68 +172,65 @@ creditsText.TextSize = 16
 creditsText.TextXAlignment = Enum.TextXAlignment.Left
 creditsText.TextYAlignment = Enum.TextYAlignment.Top
 creditsText.TextWrapped = true
-creditsText.Text = [[
-Credits:
+creditsText.Text = [[Credits:
 
-Dev's : Frost230_0 // pedro098888 // rip_luffy1552._1459
+Dev's: Frost230_0 // pedro098888 // rip_luffy1552._1459
 Animation: Frost230_0 // pedro098888
 Co-Owner: lostzada.com
-Owner: imperial_rickz
-]]
+Owner: imperial_rickz]]
 
 -- TROCAR TABS
 local function switchTab(tab, button, stroke)
-funFrame.Visible = false
-avatarFrame.Visible = false
-settingsFrame.Visible = false
-creditsFrame.Visible = false
+	funFrame.Visible = false
+	avatarFrame.Visible = false
+	settingsFrame.Visible = false
+	creditsFrame.Visible = false
 
-for _, child in ipairs(sidebar:GetChildren()) do  
-	if child:IsA("TextButton") then  
-		child.BackgroundColor3 = Color3.fromRGB(45, 45, 45)  
-	end  
-end  
-funStroke.Transparency = 1  
-avatarStroke.Transparency = 1  
-settingsStroke.Transparency = 1  
-creditsStroke.Transparency = 1  
+	for _, child in ipairs(sidebar:GetChildren()) do
+		if child:IsA("TextButton") then
+			child.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+		end
+	end
 
-currentButton = button  
-button.BackgroundColor3 = Color3.fromRGB(65, 65, 65)  
-stroke.Transparency = 0.2  
+	funStroke.Transparency = 1
+	avatarStroke.Transparency = 1
+	settingsStroke.Transparency = 1
+	creditsStroke.Transparency = 1
 
-if tab == "Fun" then  
-	funFrame.Visible = true  
-elseif tab == "Avatar" then  
-	avatarFrame.Visible = true  
-elseif tab == "Settings" then  
-	settingsFrame.Visible = true  
-elseif tab == "Credits" then  
-	creditsFrame.Visible = true  
+	currentButton = button
+	button.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
+	stroke.Transparency = 0.2
+
+	if tab == "Fun" then
+		funFrame.Visible = true
+	elseif tab == "Avatar" then
+		avatarFrame.Visible = true
+	elseif tab == "Settings" then
+		settingsFrame.Visible = true
+	elseif tab == "Credits" then
+		creditsFrame.Visible = true
+	end
 end
 
-end
-
--- BOTÕES PARA TROCAR TABS
 funButton.MouseButton1Click:Connect(function()
-switchTab("Fun", funButton, funStroke)
+	switchTab("Fun", funButton, funStroke)
 end)
 
 avatarButton.MouseButton1Click:Connect(function()
-switchTab("Avatar", avatarButton, avatarStroke)
+	switchTab("Avatar", avatarButton, avatarStroke)
 end)
 
 settingsButton.MouseButton1Click:Connect(function()
-switchTab("Settings", settingsButton, settingsStroke)
+	switchTab("Settings", settingsButton, settingsStroke)
 end)
 
 creditsButton.MouseButton1Click:Connect(function()
-switchTab("Credits", creditsButton, creditsStroke)
+	switchTab("Credits", creditsButton, creditsStroke)
 end)
 
 switchTab("Fun", funButton, funStroke)
 
--- BOTÃO RESTAURAR (BOLINHA)
+-- BOTÃO RESTAURAR
 local restoreButton = Instance.new("TextButton")
 restoreButton.Size = UDim2.new(0, 36, 0, 36)
 restoreButton.Position = UDim2.new(0, 20, 1, -56)
@@ -252,18 +248,15 @@ dragify(restoreButton)
 
 -- AÇÕES DOS BOTÕES
 minimizeButton.MouseButton1Click:Connect(function()
-mainFrame.Visible = false
-restoreButton.Visible = true
+	mainFrame.Visible = false
+	restoreButton.Visible = true
 end)
 
 restoreButton.MouseButton1Click:Connect(function()
-mainFrame.Visible = true
-restoreButton.Visible = false
+	mainFrame.Visible = true
+	restoreButton.Visible = false
 end)
 
 closeButton.MouseButton1Click:Connect(function()
-screenGui:Destroy()
+	screenGui:Destroy()
 end)
-
-Continua com esse
-
